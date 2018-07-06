@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+
+    <script src="js/lib/wuf.js"></script>
+    <!--<script src="js/lib/inspect.js"></script>-->
+    <script src="js/src/VodMain.js"></script>
+    <script src="js/src/shaders/FlowingGradientShader.js"></script>
+    <script src="js/src/EpicBackground.js"></script>
+</head>
+<body>
+<script>
+    window.onload = function() {
+        const options = {stage: {w: 1920, h: 1080, glClearColor: 0xFF000000}, debug: true}
+        const app = new VodMain(options)
+
+        document.body.appendChild(app.stage.getCanvas());
+    }
+</script>
+</body>
+</html>
