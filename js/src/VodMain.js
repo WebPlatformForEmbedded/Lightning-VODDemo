@@ -31,12 +31,11 @@ class VodMain extends wuf.Application {
             },
             Loading: {
                 _enter: function() {
-                    this.tag("Loader").setSmooth('alpha', 1)
+                    this.tag("Loader").visible = true
                     this._loadingAnimation.start()
                 },
                 _exit: function() {
-                    this.tag("Loader").setSmooth('alpha', 0)
-                    this.tag("Loader").fastForward('alpha')
+                    this.tag("Loader").visible = false
                     this._loadingAnimation.stop()
                 },
 

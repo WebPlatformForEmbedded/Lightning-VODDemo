@@ -3,7 +3,7 @@ class VodCategory extends wuf.Component {
     static _template() {
         return {
             Title: {text: {fontSize: 40}, y: 130, x: 150},
-            Grid: {}
+            Grid: {signal: {selectItem: true}}
         }
     }
 
@@ -30,6 +30,10 @@ class VodCategory extends wuf.Component {
             _active: function() {
                 // We lazily wait for initialization until this vod category becomes active (= visible and within bounds).
                 this._initialize()
+            },
+            selectItem: function({target}) {
+                // Pass upwards.
+                this.signal("selectItem", {item: target})
             }
         }
     }

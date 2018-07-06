@@ -4,6 +4,10 @@ class Grid extends wuf.Component {
         return {}
     }
 
+    set items(v) {
+        const i = 1;
+    }
+
     static _states() {
         return {}
     }

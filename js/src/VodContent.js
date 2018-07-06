@@ -21,7 +21,7 @@ class VodContent extends wuf.Component {
 
     set categories(categories) {
         // Create and add category pages.
-        const vodCategories = categories.map(cat => ({type: VodCategory, category: cat, ref: `C-${cat.id}`, visible: false}))
+        const vodCategories = categories.map(cat => ({type: VodCategory, category: cat, ref: `C-${cat.id}`, visible: false, signals: {selectItem: true}}))
         this._vodCategories.patch(vodCategories)
     }
 
@@ -51,9 +51,10 @@ class VodContent extends wuf.Component {
                     this.fire('showCategory', {categoryId: args.categoryId})
                 },
                 _exit: function() {
+
                     this.tag("Categories").setSmooth('alpha', 0)
                 },
-                showCategory({categoryId}) {
+                showCategory: function({categoryId}) {
                     // Hide the previously shown category.
                     if (this._activeVodCategoryId) {
                         this._getVodCategory(this._activeVodCategoryId).visible = false
@@ -63,6 +64,9 @@ class VodContent extends wuf.Component {
 
                     // Show new category.
                     this._getVodCategory(categoryId).visible = true
+                },
+                selectItem: function({item}) {
+
                 }
             },
             showCategory({categoryId}) {
