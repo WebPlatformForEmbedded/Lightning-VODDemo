@@ -12,6 +12,18 @@ class VodMain extends wuf.Application {
     static _states() {
         return {
             _init: function() {
+                this._api = new VodApi()
+
+                // @todo: implement
+                this._api.getPopular().then((data)=>{
+                    console.log(data.results)
+                })
+
+                // @todo: implement
+                this._api.getGenre('action').then((data)=>{
+                    console.log(data.results)
+                })
+
                 this._loadingAnimation = this.tag("Loader").animation({duration: 1.5, repeat: -1, actions: [
                     {p: 'rotation', v: {sm: 0, 0: 0, 1: 2 * Math.PI}},
                     {p: 'scale', v: {0: 0.3, 0.5: 0.6, 1:0.3}},
@@ -27,6 +39,7 @@ class VodMain extends wuf.Application {
                     ]
                     this.fire('loaded', {categories})
                 }, 2000)
+
                 return "Loading"
             },
             Loading: {

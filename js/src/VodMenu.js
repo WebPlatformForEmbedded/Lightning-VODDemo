@@ -2,8 +2,8 @@ class VodMenu extends wuf.Component {
 
     static _template() {
         return {
-            Wrapper: {alpha:0, y:-200, mountX: 0.5, x: 960, y: 100, color: 0x33ffffff, texture: wuf.Tools.getRoundRect(1700,100,20, 0, 0x00000000, true),
-                Items:{y: 25, x:25}
+            Wrapper: {alpha:0, y:-200, y: -500, h:200, w:1920, rect:true, color:0x80000000,
+                Items:{y: 100, x:50}
             }
         }
     }
@@ -38,7 +38,7 @@ class VodMenu extends wuf.Component {
             },
             _active: function() {
                 this.tag("Wrapper").patch({
-                    smooth:{alpha:1, y:50}
+                    smooth:{alpha:1, y:0}
                 })
             },
             _handleRight: function() {
