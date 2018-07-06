@@ -1,11 +1,8 @@
-class VodContent extends wuf.Component {
+class VodCategories extends wuf.Component {
 
     static _template() {
         return {
-            Categories: {y: 100, alpha: 0,
-                // These are created after loading.
-            },
-            Details: {type: VodDetails, alpha: 0}
+            Categories: {}
         }
     }
 
@@ -33,14 +30,6 @@ class VodContent extends wuf.Component {
         return {
             _init: function() {
                 this._vodCategories = this.tag("Categories").childList
-            },
-            Details: {
-                _enter: function() {
-                    this.tag("Details").setSmooth('alpha', 1)
-                },
-                _exit: function() {
-                    this.tag("Details").setSmooth('alpha', 0)
-                }
             },
             Category: {
                 _enter: function({args}) {
@@ -78,7 +67,7 @@ class VodContent extends wuf.Component {
     _getFocused() {
         switch(this.state) {
             case "Category":
-                return this.tag("Menu")
+                return this._getActiveVodCategory()
                 break
         }
     }

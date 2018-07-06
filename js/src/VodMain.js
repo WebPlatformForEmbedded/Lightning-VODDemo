@@ -4,7 +4,7 @@ class VodMain extends wuf.Application {
         return {
             Background: { type: EpicBackground  },
             Menu: {type: VodMenu, x: 0, y: 0, alpha: 0, signals: {itemSelected: "menuItemSelected"}},
-            Content: {type: VodContent, alpha: 0},
+            Categories: {y: 100, type: VodCategories, alpha: 0},
             Loader: {w:150, h:150, scale: 0.5, pivot: 0.5, mount:0.5, x:960, y:540, alpha: 0, src:'images/vod-loader.png'}
         }
     }
@@ -41,7 +41,7 @@ class VodMain extends wuf.Application {
 
                 loaded: function({categories}) {
                     // Delegate.
-                    this.tag("Content").categories = categories
+                    this.tag("Categories").categories = categories
 
                     // Create and add menu items for every category.
                     const vodMenuItems = categories.map(cat => ({title: cat.title, categoryId: cat.id}))
@@ -54,19 +54,19 @@ class VodMain extends wuf.Application {
             Loaded: {
                 _enter: function() {
                     this.tag("Menu").setSmooth('alpha', 1)
-                    this.tag("Content").setSmooth('alpha', 1)
+                    this.tag("Categories").setSmooth('alpha', 1)
                 },
                 Menu: {
-                    _handleDown: "Loaded.Content"
+                    _handleDown: "Loaded.Categories"
                 },
-                Content: {
+                Categories: {
                     _handleUp() {
                         return "Loaded.Menu"
                     }
                 }
             },
             menuItemSelected: function({item}) {
-                this.tag("Content").setActiveCategory(item.categoryId)
+                this.tag("Categories").setActiveCategory(item.categoryId)
             }
         }
     }
@@ -77,8 +77,8 @@ class VodMain extends wuf.Application {
             case "Loaded.Menu":
                 return this.tag("Menu")
                 break
-            case "Loaded.Content":
-                return this.tag("Content")
+            case "Loaded.Categories":
+                return this.tag("Categories")
                 break
         }
     }
