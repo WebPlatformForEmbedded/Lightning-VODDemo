@@ -25,8 +25,8 @@ class EpicBackground extends wuf.Component {
             },
             _init: function() {
                 this.tag("Shader").animation({duration: 60, repeat: -1, actions: [
-                    {p: 'shader.color1', v: {0: 0xFFFF0000, 0.1: 0xFFFFFF00, 0.4: 0xFF00FF00, 0.6: 0xFFFF0000, 0.8: 0xFF0000FF, 1: 0xFFFF0000}},
-                    {p: 'shader.color2', v: {0: 0xFF0000FF, 0.1: 0xFFFF00FF, 0.4: 0xFF0000FF, 0.6: 0xFF0000FF, 0.8: 0xFFFF0000, 1: 0xFF0000FF}},
+                    {p: 'shader.color1', v: {0: 0xFF0c5fad, 0.1: 0xFF01061a, 0.4: 0xFF0e2b4b, 0.6: 0xFF191b18, 0.8: 0xFFbe0500, 1: 0xFF456cc7}},
+                    {p: 'shader.color2', v: {0: 0xFF96d7fd, 0.1: 0xFFb6cfd3, 0.4: 0xFFffdb34, 0.6: 0xFF7e7c53, 0.8: 0xFFffb86a, 1: 0xFFfde399}},
                     {p: 'shader.banding', v: {sm: 0, 0.4: 0, 0.5: 0.80, 0.6: 0.95, 0.8: 0.95, 0.95: 0.95, 1: 0}}
                 ]}).start()
             },
