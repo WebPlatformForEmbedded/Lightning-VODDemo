@@ -1,11 +1,41 @@
 class VodCategory extends wuf.Component {
 
     static _template() {
-        return {}
+        return {
+            Title: {text: {fontSize: 40}, y: 130, x: 150},
+            Grid: {}
+        }
+    }
+
+    set category(obj) {
+        this._category = obj
+    }
+
+    get category() {
+        return this._category
+    }
+
+    _initialize() {
+        const info = this._category
+
+        const gridItems = info
+        this.patch({
+            Title: {text: {text: info.title}},
+            Grid: {type: Grid, items: gridItems, x: 100, y: 200, w: 1720, h: 780, rect: true, color: 0x55FFFFFF}
+        })
     }
 
     static _states() {
-        return {}
+        return {
+            _active: function() {
+                // We lazily wait for initialization until this vod category becomes active (= visible and within bounds).
+                this._initialize()
+            }
+        }
+    }
+
+    _getFocused() {
+        return this.tag("Grid")
     }
 
 }
