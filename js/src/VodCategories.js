@@ -55,7 +55,7 @@ class VodCategories extends wuf.Component {
                     this._getVodCategory(categoryId).visible = true
                 },
                 selectItem: function({item}) {
-
+                    this.signal("showMovie", {item})
                 }
             },
             showCategory({categoryId}) {
