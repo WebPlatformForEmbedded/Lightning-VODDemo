@@ -1,63 +1,80 @@
 class VodMenu extends wuf.Component {
+
     static _template() {
         return {
-            Wrapper:{
-                alpha:0, y:-200,
-                mountX: 0.5, x: 960, y: 100,
-                texture: wuf.Tools.getRoundRect(1700,100,20, 0, 0x00000000, true, 0x33ffffff),
-                Items:{
-                    y: 25, x:25
-                }
+            Wrapper: {alpha:0, y:-200, mountX: 0.5, x: 960, y: 100, color: 0x33ffffff, texture: wuf.Tools.getRoundRect(1700,100,20, 0, 0x00000000, true),
+                Items:{y: 25, x:25}
             }
         }
     }
 
-    set items(v){
-        this._items = v
+    set items(items) {
+        this.tag("Items").childList.patch(items.map(item => ({type: VodMenuItem, info: item})))
+        const menuItems = this.tag("Items").childList.get()
 
-        this.tag('Items').patch({
-            children:v.map((item)=>{
-                return {type:MenuItem, label:item.name}
-            })
+        // Layout items.
+        let x = 0
+        menuItems.forEach(menuItem => {
+            menuItem.x = x
+            x += menuItem.getWidth() + 50 /* margin */
         })
 
-        let pos = 0
+        // We use a 'fire' because it causes the focus path to be recalculated.
+        this.select(0)
+    }
 
-        this.tag('Items').children.forEach((item)=>{
-            item.x = pos
-            item.loadTexture()
-            pos+=item.renderWidth + MenuItem.MARGIN
-        })
+    get _items() {
+        return this.tag("Items").childList
+    }
+
+    select(index) {
+        this.fire('select', {index})
     }
 
     static _states() {
         return {
-            _active: function(){
-                this.patch({
-                    Wrapper:{
-                        smooth:{alpha:1, y:50}
-                    }
+            _init: function() {
+                this._selectedIndex = 0
+            },
+            _active: function() {
+                this.tag("Wrapper").patch({
+                    smooth:{alpha:1, y:50}
                 })
             },
-            _inactive: function(){
+            _handleRight: function() {
+                if (this._selectedIndex < this._items.length - 1) {
+                    this.select(this._selectedIndex + 1)
+                }
+            },
+            _handleLeft: function() {
+                if (this._selectedIndex > 0) {
+                    this.select(this._selectedIndex - 1)
+                }
+            },
+            select: function({index}) {
+                this._items.getAt(this._selectedIndex).deselect()
+                this._selectedIndex = index % this._items.length
+                const newSelectedItem = this._items.getAt(this._selectedIndex)
+                newSelectedItem.select()
 
+                // Send a bubbling signal upwards.
+                this.signal('itemSelected', {item: newSelectedItem._info})
+            },
+            _focus: function() {
+                this.tag("Wrapper").setSmooth('alpha', 1.0)
+            },
+            _unfocus: function() {
+                this.tag("Wrapper").setSmooth('alpha', 0.7)
             }
         }
     }
-}
 
-class MenuItem extends wuf.Component{
-    static _template(){
-        return {
-            text:'', fontSize:40
+    _getFocused() {
+        if (this._items.length) {
+            return this._items.getAt(this._selectedIndex)
+        } else {
+            return this
         }
     }
-    set label(v){
-        this.patch({
-            text:{text:v}
-        })
-    }
 }
-
-MenuItem.MARGIN = 50
 

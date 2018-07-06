@@ -4,16 +4,31 @@
     <meta charset="UTF-8" />
 
     <script src="js/lib/wuf.js"></script>
-    <!--<script src="js/lib/inspect.js"></script>-->
-    <script src="js/src/VodMain.js"></script>
-    <script src="js/src/VodMenu.js"></script>
+    <script src="js/lib/inspect.js"></script>
     <script src="js/src/shaders/FlowingGradientShader.js"></script>
     <script src="js/src/EpicBackground.js"></script>
+    <script src="js/src/VodMain.js"></script>
+    <script src="js/src/VodMenu.js"></script>
+    <script src="js/src/VodMenuItem.js"></script>
+    <script src="js/src/VodContent.js"></script>
+    <script src="js/src/VodCategory.js"></script>
+    <script src="js/src/VodDetails.js"></script>
+    <script src="js/src/Grid.js"></script>
 </head>
 <body>
 <script>
     window.onload = function() {
-        const options = {stage: {w: 1920, h: 1080, glClearColor: 0xFF000000}, debug: true}
+
+        // The specified key code will fire the _handle{Name} event in the focused component.
+        const navigationKeys = {
+            38: "Up",
+            40: "Down",
+            37: "Left",
+            39: "Right",
+            13: "Enter",
+            27: "Back"
+        }
+        const options = {stage: {w: 1920, h: 1080, glClearColor: 0xFF000000}, debug: true, keys: navigationKeys}
         const app = new VodMain(options)
 
         document.body.appendChild(app.stage.getCanvas());

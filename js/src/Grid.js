@@ -1,4 +1,4 @@
-class VodGrid extends wuf.Component {
+class Grid extends wuf.Component {
 
     static _template() {
         return {}
