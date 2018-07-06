@@ -21,7 +21,7 @@ class VodCategory extends wuf.Component {
         const gridItems = info
         this.patch({
             Title: {text: {text: info.title}},
-            Grid: {type: Grid, items: gridItems, x: 100, y: 200, w: 1720, h: 780, rect: true, color: 0x55FFFFFF}
+            Grid: {type: Grid, items: gridItems, x: 150, y: 200, w: 1620, h: 780, clipping: true}
         })
     }
 

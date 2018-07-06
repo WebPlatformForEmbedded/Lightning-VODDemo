@@ -31,7 +31,7 @@ class VodMenuItem extends wuf.Component {
             _init: "Unfocused.Deselected",
             Focused: {
                 _enter: function() {
-                    this.tag("Title").color = 0xFFFFFFFF
+                    this.tag("Title").setSmooth('color', 0xFFFFFFFF)
                 },
                 _unfocus: "Unfocused.Selected",
                 deselect: "Unfocused.Deselected"
@@ -39,14 +39,14 @@ class VodMenuItem extends wuf.Component {
             Unfocused: {
                 Selected: {
                     _enter: function() {
-                        this.tag("Title").color = 0xFFEEEEEE
+                        this.tag("Title").setSmooth('color', 0xFFDDDDDD)
                     },
                     _focus: "Focused",
                     deselect: "Unfocused.Selected"
                 },
                 Deselected: {
                     _enter: function() {
-                        this.tag("Title").color = 0xFFAAAAAA
+                        this.tag("Title").setSmooth('color', 0xFFAAAAAA)
                     },
                     select: "Focused",
                     _focus: "Focused.Deselected"

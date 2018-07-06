@@ -2,7 +2,7 @@ class VodMenu extends wuf.Component {
 
     static _template() {
         return {
-            Wrapper: {alpha:0, y:-200, mountX: 0.5, x: 960, y: 100, texture: wuf.Tools.getRoundRect(1700,100,20, 0, 0x00000000, true, 0x33ffffff),
+            Wrapper: {alpha:0, y:-200, mountX: 0.5, x: 960, y: 100, color: 0x33ffffff, texture: wuf.Tools.getRoundRect(1700,100,20, 0, 0x00000000, true),
                 Items:{y: 25, x:25}
             }
         }
@@ -59,6 +59,12 @@ class VodMenu extends wuf.Component {
 
                 // Send a bubbling signal upwards.
                 this.signal('itemSelected', {item: newSelectedItem._info})
+            },
+            _focus: function() {
+                this.tag("Wrapper").setSmooth('alpha', 1.0)
+            },
+            _unfocus: function() {
+                this.tag("Wrapper").setSmooth('alpha', 0.7)
             }
         }
     }
