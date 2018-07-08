@@ -1,20 +1,15 @@
 class VodApi{
     constructor(){
         this._urls = {
-            popular:'data/popular-movies.json'
+            movies:'data/movies.json'
         }
     }
 
-    getPopular(){
-        return this._req(this._urls.popular)
-    }
-
-    getGenre(genre){
-        const url = `data/movies-${genre.toLowerCase()}.json`
-        return this._req(url)
+    getMovies(){
+        return this._req(this._urls.movies)
     }
 
     _req(url){
-        return fetch(url).then(response => response.json())
+        return window.fetch(url).then(response => { return response.json() })
     }
 }

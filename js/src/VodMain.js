@@ -4,8 +4,9 @@ class VodMain extends wuf.Application {
         return {
             Background: { type: EpicBackground  },
             Menu: {type: VodMenu, x: 0, y: 0, alpha: 0, signals: {itemSelected: "menuItemSelected"}},
-            Categories: {y: 100, type: VodCategories, alpha: 0},
-            Loader: {w:150, h:150, scale: 0.5, pivot: 0.5, mount:0.5, x:960, y:540, alpha: 0, src:'images/vod-loader.png'}
+            Categories: {y: 100, type: VodCategories, alpha: 0, signals:{selectItem: true}},
+            Loader: {w:150, h:150, scale: 0.5, pivot: 0.5, mount:0.5, x:960, y:540, alpha: 0, src:'images/vod-loader.png'},
+            Details:{type:VodDetails, visible: false}
         }
     }
 
@@ -14,32 +15,21 @@ class VodMain extends wuf.Application {
             _init: function() {
                 this._api = new VodApi()
 
-                // @todo: implement
-                this._api.getPopular().then((data)=>{
-                    console.log(data.results)
-                })
-
-                // @todo: implement
-                this._api.getGenre('action').then((data)=>{
-                    console.log(data.results)
-                })
-
                 this._loadingAnimation = this.tag("Loader").animation({duration: 1.5, repeat: -1, actions: [
                     {p: 'rotation', v: {sm: 0, 0: 0, 1: 2 * Math.PI}},
                     {p: 'scale', v: {0: 0.3, 0.5: 0.6, 1:0.3}},
                     {p: 'alpha', v: {0: 0, 0.5: 1, 1:0}},
                 ]})
 
-                setTimeout(() => {
-                    const categories = [
-                        {title: "Popular", id: 1},
-                        {title: "Drama", id: 2},
-                        {title: "Action", id: 3},
-                        {title: "Sci-Fi", id: 4}
-                    ]
-                    this.fire('loaded', {categories})
-                }, 2000)
+                this._api.getMovies().then(({items})=>{
+                    const categories = items.map((cat)=>{
+                        return {title:cat.title, items: cat.results, id: cat.id }
+                    })
 
+                    this.fire('loaded', {categories})
+                }).catch((err)=>{
+                    console.error( err )
+                })
                 return "Loading"
             },
             Loading: {
@@ -58,6 +48,7 @@ class VodMain extends wuf.Application {
 
                     // Create and add menu items for every category.
                     const vodMenuItems = categories.map(cat => ({title: cat.title, categoryId: cat.id}))
+
                     this.tag("Menu").items = vodMenuItems
                     this.tag("Menu").setSmooth('alpha', 1)
 
@@ -75,6 +66,18 @@ class VodMain extends wuf.Application {
                 Categories: {
                     _handleUp() {
                         return "Loaded.Menu"
+                    },
+                    _handleBack(){
+                        return "Loaded.Menu"
+                    },
+                    selectItem:"Loaded.Detail"
+                },
+                Detail:{
+                    _enter: function({args:{item}}){
+                        this.tag('Details').item = item
+                    },
+                    _exit: function(){
+
                     }
                 }
             },
@@ -94,6 +97,10 @@ class VodMain extends wuf.Application {
                 return this.tag("Categories")
                 break
         }
+    }
+
+    static getCropped({url,w,h}){
+        return `//cdn.metrological.com/image?operator=metrological&url=${encodeURIComponent(`https://image.tmdb.org/t/p//w300/${url}`)}&width=${w}&height=${h}&type=crop`
     }
 }
 

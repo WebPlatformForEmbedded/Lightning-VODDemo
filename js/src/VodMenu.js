@@ -2,7 +2,7 @@ class VodMenu extends wuf.Component {
 
     static _template() {
         return {
-            Wrapper: {alpha:0, y:-200, y: -500, h:200, w:1920, rect:true, color:0x80000000,
+            Wrapper: {alpha:0, y:-200, y: -500, h:200, w:1920,
                 Items:{y: 100, x:50}
             }
         }

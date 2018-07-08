@@ -3,7 +3,9 @@ class VodCategory extends wuf.Component {
     static _template() {
         return {
             Title: {text: {fontSize: 40}, y: 130, x: 150},
-            Grid: {type: Grid, x: 150, y: 200, w: 1620, h: 780, clipping: true, signal: {selectItem: true}}
+            Grid: {
+                type: Grid, x: 150, y: 200, w: 1620, h: 780, clipping: true, signals: {selectItem: true}
+            }
         }
     }
 
@@ -16,12 +18,11 @@ class VodCategory extends wuf.Component {
     }
 
     _initialize() {
-        const info = this._category
+        const {title, items} = this._category
 
-        const gridItems = info
         this.patch({
-            Title: {text: {text: info.title}},
-            Grid: {items: gridItems}
+            Title: {text: {text: title}},
+            Grid: {items}
         })
     }
 
@@ -33,7 +34,7 @@ class VodCategory extends wuf.Component {
             },
             selectItem: function({target}) {
                 // Pass upwards.
-                this.signal("selectItem", {item: target})
+                this.signal("selectItem", {item: target}, true)
             }
         }
     }
