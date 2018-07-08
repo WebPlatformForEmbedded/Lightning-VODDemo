@@ -115,7 +115,7 @@ class GridItem extends wuf.Component{
 
         this.patch({
             Image:{
-                src:VodMain.getCropped({url:v.poster_path,w:260, h:350})
+                src:VodMain.getCropped({url:v.poster_path,w:260, h:350, path:'w300'})
             },
             Label:{
                 text:{text:v.original_title}

@@ -68,10 +68,10 @@ class VodMain extends wuf.Application {
                 },
                 Details: {
                     _enter: function() {
-                        this.setSmooth('alpha', 1)
+                        this.tag('Details').setSmooth('alpha', 1)
                     },
                     _exit: function() {
-                        this.setSmooth('alpha', 0)
+                        this.tag('Details').setSmooth('alpha', 0)
                     },
                     _handleBack: function() {
                         // Back to category overview.
@@ -104,8 +104,8 @@ class VodMain extends wuf.Application {
         }
     }
 
-    static getCropped({url,w,h}){
-        return `//cdn.metrological.com/image?operator=metrological&url=${encodeURIComponent(`https://image.tmdb.org/t/p//w300/${url}`)}&width=${w}&height=${h}&type=crop`
+    static getCropped({url,w,h,path}){
+        return `//cdn.metrological.com/image?operator=metrological&url=${encodeURIComponent(`https://image.tmdb.org/t/p/${path}/${url}`)}&width=${w}&height=${h}&type=crop`
     }
 }
 
