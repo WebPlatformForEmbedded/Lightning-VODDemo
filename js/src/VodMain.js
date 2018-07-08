@@ -4,9 +4,9 @@ class VodMain extends wuf.Application {
         return {
             Background: { type: EpicBackground  },
             Menu: {type: VodMenu, x: 0, y: 0, alpha: 0, signals: {itemSelected: "menuItemSelected"}},
-            Categories: {y: 100, type: VodCategories, alpha: 0, signals:{selectItem: true}},
+            Categories: {y: 100, type: VodCategories, alpha: 0, signals: {showMovie: true}},
             Loader: {w:150, h:150, scale: 0.5, pivot: 0.5, mount:0.5, x:960, y:540, alpha: 0, src:'images/vod-loader.png'},
-            Details:{type:VodDetails, visible: false}
+            Details: {type: VodDetails, alpha: 0}
         }
     }
 
@@ -64,21 +64,23 @@ class VodMain extends wuf.Application {
                     _handleDown: "Loaded.Categories"
                 },
                 Categories: {
-                    _handleUp() {
-                        return "Loaded.Menu"
-                    },
-                    _handleBack(){
-                        return "Loaded.Menu"
-                    },
-                    selectItem:"Loaded.Detail"
+                    _handleUp: "Loaded.Menu"
                 },
-                Detail:{
-                    _enter: function({args:{item}}){
-                        this.tag('Details').item = item
+                Details: {
+                    _enter: function() {
+                        this.setSmooth('alpha', 1)
                     },
-                    _exit: function(){
-
+                    _exit: function() {
+                        this.setSmooth('alpha', 0)
+                    },
+                    _handleBack: function() {
+                        // Back to category overview.
+                        return "Loaded.Categories"
                     }
+                },
+                showMovie: function({item}) {
+                    this.tag("Details").item = item
+                    return "Loaded.Details"
                 }
             },
             menuItemSelected: function({item}) {
@@ -95,6 +97,9 @@ class VodMain extends wuf.Application {
                 break
             case "Loaded.Categories":
                 return this.tag("Categories")
+                break
+            case "Loaded.Details":
+                return this.tag("Details")
                 break
         }
     }
