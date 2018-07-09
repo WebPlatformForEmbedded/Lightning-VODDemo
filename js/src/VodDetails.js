@@ -23,7 +23,7 @@ class VodDetails extends wuf.Component {
                     x: 700,
                     y: 450,
                     alpha: 0,
-                    text: {fontSize: 30, fontFace: 'RobotoLight', wordWrapWidth: 600, lineHeight: 45, maxLines:9git stat}
+                    text: {fontSize: 30, fontFace: 'RobotoLight', wordWrapWidth: 600, lineHeight: 45, maxLines:9}
                 }
             }
         }
