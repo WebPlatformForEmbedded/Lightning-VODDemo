@@ -12,7 +12,7 @@ class Grid extends wuf.Component {
             List:{
                 children: v.map((item, idx) => {
                     let x = idx % 5 * 290
-                    let y = Math.floor(idx/5)*450
+                    let y = Math.floor(idx/5)*490
 
                     return {type: GridItem, data: item, x, y}
                 })
@@ -69,7 +69,7 @@ class Grid extends wuf.Component {
                 this.patch({
                     List: {
                         smooth: {
-                            y: -(Math.floor(this._selectedIndex / 5) * 440)
+                            y: -(Math.floor(this._selectedIndex / 5) * 490)
                         }
                     }
                 })
@@ -88,14 +88,14 @@ class GridItem extends wuf.Component{
         return {
             scale: 0.9,
             Image: {},
-            Background: {
-                y: 350, w: 260, h: 80, rect: true, color: 0x00000000,
-            },
+            w: 260,
+            h: 380,
             Label: {
-                y: 360,
-                x: 15,
+                y: 400,
+                x: 130,
+                mountX: 0.5,
                 alpha: 0.4,
-                text: {fontSize: 20, wordWrapWidth: 200, maxLines: 2, lineHeight: 30, fontFace: 'RobotoLight'}
+                text: {fontSize: 30, wordWrapWidth: 260, textAlign: 'center', maxLines: 2, lineHeight: 40, fontFace: 'RobotoRegular'}
             }
         }
     }
@@ -105,15 +105,13 @@ class GridItem extends wuf.Component{
             _focus: function () {
                 this.patch({
                     smooth: {scale: 1},
-                    Label: {smooth: {alpha: 1}},
-                    Background: {smooth: {color: 0x80000000}}
+                    Label: {smooth: {alpha: 1}}
                 })
             },
             _unfocus: function () {
                 this.patch({
                     smooth: {scale: 0.9},
-                    Label: {smooth: {alpha: 0.4}},
-                    Background: {smooth: {color: 0x00000000}}
+                    Label: {smooth: {alpha: 0.4}}
                 })
             }
         }
@@ -124,7 +122,7 @@ class GridItem extends wuf.Component{
 
         this.patch({
             Image:{
-                src:VodMain.getCropped({url:v.poster_path,w:260, h:350, path:'w300'})
+                src:VodMain.getCropped({url:v.poster_path,w:260, h:390, path:'w300'})
             },
             Label:{
                 text:{text:v.original_title}

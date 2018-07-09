@@ -56,10 +56,13 @@
             13: "Enter",
             27: "Back"
         }
-        const options = {stage: {w: 1920, h: 1080, glClearColor: 0xFF000000}, debug: true, keys: navigationKeys}
-        const app = new VodMain(options)
 
-        document.body.appendChild(app.stage.getCanvas());
+        setTimeout(() => {
+            const options = {stage: {w: 1920, h: 1080, glClearColor: 0xFF000000}, debug: true, keys: navigationKeys}
+            const app = new VodMain(options)
+
+            document.body.appendChild(app.stage.getCanvas());
+        }, 3000)
     }
 </script>
 </body>

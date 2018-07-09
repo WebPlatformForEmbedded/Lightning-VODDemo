@@ -3,8 +3,10 @@ class VodMain extends wuf.Application {
     static _template() {
         return {
             Background: { type: EpicBackground  },
-            Menu: {type: VodMenu, x: 0, y: 0, alpha: 0, signals: {itemSelected: "menuItemSelected"}},
-            Categories: {y: 100, type: VodCategories, alpha: 0, signals: {showMovie: true, back:true}},
+            Content: {
+                Menu: {type: VodMenu, x: 261, y: 60, alpha: 0, signals: {itemSelected: "menuItemSelected"}},
+                Categories: {x: 250, y: 100, type: VodCategories, alpha: 0, signals: {showMovie: true, back:true}},
+            },
             Loader: {w:150, h:150, scale: 0.5, pivot: 0.5, mount:0.5, x:960, y:540, alpha: 0, src:'images/vod-loader.png'},
             Details: {type: VodDetails, alpha: 0}
         }
@@ -14,9 +16,6 @@ class VodMain extends wuf.Application {
         return {
             _init: function() {
                 this._api = new VodApi()
-
-                // Force widgets.metrological.com to be called, to get access to image/proxy servers.
-                const appStore = new AppStore("3eda7f3701d2832a281c556c1bc71b93")
 
                 this._loadingAnimation = this.tag("Loader").animation({duration: 1.5, repeat: -1, actions: [
                     {p: 'rotation', v: {sm: 0, 0: 0, 1: 2 * Math.PI}},
@@ -55,7 +54,7 @@ class VodMain extends wuf.Application {
                     this.tag("Menu").items = vodMenuItems
                     this.tag("Menu").setSmooth('alpha', 1)
 
-                    return "Loaded.Menu"
+                    return "Loaded.Content.Menu"
                 }
             },
             Loaded: {
@@ -63,11 +62,19 @@ class VodMain extends wuf.Application {
                     this.tag("Menu").setSmooth('alpha', 1)
                     this.tag("Categories").setSmooth('alpha', 1)
                 },
-                Menu: {
-                    _handleDown: "Loaded.Categories"
-                },
-                Categories: {
-                    _handleUp: "Loaded.Menu"
+                Content: {
+                    _enter: function() {
+                        this.tag("Content").setSmooth('alpha', 1)
+                    },
+                    _exit: function() {
+                        this.tag("Content").setSmooth('alpha', 0)
+                    },
+                    Menu: {
+                        _handleDown: "Loaded.Content.Categories"
+                    },
+                    Categories: {
+                        _handleUp: "Loaded.Content.Menu"
+                    }
                 },
                 Details: {
                     _enter: function() {
@@ -76,8 +83,8 @@ class VodMain extends wuf.Application {
                     _exit: function() {
                         this.tag('Details').setSmooth('alpha', 0)
                     },
-                    _captureKey: function(){
-                        return "Loaded.Categories"
+                    _handleBack: function(){
+                        return "Loaded.Content.Categories"
                     }
                 },
                 showMovie: function({item}) {
@@ -85,7 +92,7 @@ class VodMain extends wuf.Application {
                     return "Loaded.Details"
                 },
                 back: function(){
-                    return "Loaded.Menu"
+                    return "Loaded.Content.Menu"
                 }
             },
             menuItemSelected: function({item}) {
@@ -97,10 +104,10 @@ class VodMain extends wuf.Application {
     _getFocused() {
         // Delegate focus (for key handling) based on state.
         switch(this.state) {
-            case "Loaded.Menu":
+            case "Loaded.Content.Menu":
                 return this.tag("Menu")
                 break
-            case "Loaded.Categories":
+            case "Loaded.Content.Categories":
                 return this.tag("Categories")
                 break
             case "Loaded.Details":

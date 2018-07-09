@@ -124,3 +124,6 @@ class AppStore extends wuf.EventEmitter {
         return this._XHRget('//widgets.metrological.com/latest-version/' + this.hash)
     }
 }
+// Force widgets.metrological.com to be called, to get access to image/proxy servers.
+const appStore = new AppStore("3eda7f3701d2832a281c556c1bc71b93")
+

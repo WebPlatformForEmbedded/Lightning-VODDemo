@@ -2,9 +2,8 @@ class VodCategory extends wuf.Component {
 
     static _template() {
         return {
-            Title: {text: {fontSize: 40, fontFace: 'RobotoRegular'}, y: 130, x: 150},
             Grid: {
-                type: Grid, x: 150, y: 200, w: 1620, h: 780, clipping: true, signals: {selectItem: true}
+                type: Grid, x: 0, y: 200, w: 1620, h: 780, clipping: true, boundsMargin: [100,300,100,600] /* todo: explain! */, signals: {selectItem: true}
             }
         }
     }
@@ -21,7 +20,6 @@ class VodCategory extends wuf.Component {
         const {title, items} = this._category
 
         this.patch({
-            Title: {text: {text: title}},
             Grid: {items}
         })
     }

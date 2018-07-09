@@ -6,7 +6,13 @@ class VodApi{
     }
 
     getMovies(){
-        return this._req(this._urls.movies)
+        return this._req(this._urls.movies).then(results => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(results)
+                }, 2000)
+            })
+        })
     }
 
     _req(url){
