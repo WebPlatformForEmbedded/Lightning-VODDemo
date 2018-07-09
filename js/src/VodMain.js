@@ -4,7 +4,7 @@ class VodMain extends wuf.Application {
         return {
             Background: { type: EpicBackground  },
             Menu: {type: VodMenu, x: 0, y: 0, alpha: 0, signals: {itemSelected: "menuItemSelected"}},
-            Categories: {y: 100, type: VodCategories, alpha: 0, signals: {showMovie: true}},
+            Categories: {y: 100, type: VodCategories, alpha: 0, signals: {showMovie: true, back:true}},
             Loader: {w:150, h:150, scale: 0.5, pivot: 0.5, mount:0.5, x:960, y:540, alpha: 0, src:'images/vod-loader.png'},
             Details: {type: VodDetails, alpha: 0}
         }
@@ -14,6 +14,9 @@ class VodMain extends wuf.Application {
         return {
             _init: function() {
                 this._api = new VodApi()
+
+                // Force widgets.metrological.com to be called, to get access to image/proxy servers.
+                const appStore = new AppStore("3eda7f3701d2832a281c556c1bc71b93")
 
                 this._loadingAnimation = this.tag("Loader").animation({duration: 1.5, repeat: -1, actions: [
                     {p: 'rotation', v: {sm: 0, 0: 0, 1: 2 * Math.PI}},
@@ -73,14 +76,16 @@ class VodMain extends wuf.Application {
                     _exit: function() {
                         this.tag('Details').setSmooth('alpha', 0)
                     },
-                    _handleBack: function() {
-                        // Back to category overview.
+                    _captureKey: function(){
                         return "Loaded.Categories"
                     }
                 },
                 showMovie: function({item}) {
                     this.tag("Details").item = item
                     return "Loaded.Details"
+                },
+                back: function(){
+                    return "Loaded.Menu"
                 }
             },
             menuItemSelected: function({item}) {

@@ -2,7 +2,7 @@ class VodCategory extends wuf.Component {
 
     static _template() {
         return {
-            Title: {text: {fontSize: 40}, y: 130, x: 150},
+            Title: {text: {fontSize: 40, fontFace: 'RobotoRegular'}, y: 130, x: 150},
             Grid: {
                 type: Grid, x: 150, y: 200, w: 1620, h: 780, clipping: true, signals: {selectItem: true}
             }

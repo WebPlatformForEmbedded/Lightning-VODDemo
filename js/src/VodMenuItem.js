@@ -2,7 +2,7 @@ class VodMenuItem extends wuf.Component {
 
     static _template() {
         return {
-            Title: {color: 0xFFAAAAAA, text: {fontSize: 40}}
+            Title: {color: 0xFFAAAAAA, text: {fontSize: 40, fontFace: 'RobotoLight'}}
         }
     }
 

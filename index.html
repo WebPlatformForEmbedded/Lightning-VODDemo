@@ -4,26 +4,46 @@
     <meta charset="UTF-8" />
 
     <script src="js/lib/wuf.js"></script>
-    <script src="js/lib/inspect.js"></script>
+    <!--<script src="js/lib/inspect.js"></script>-->
+    <script src="js/lib/AppStore.js"></script>
     <script src="js/lib/VodApi.js"></script>
     <script src="js/src/shaders/FlowingGradientShader.js"></script>
     <script src="js/src/EpicBackground.js"></script>
     <script src="js/src/VodMain.js"></script>
     <script src="js/src/VodMenu.js"></script>
     <script src="js/src/VodMenuItem.js"></script>
-    <script src="js/src/VodCategories.js"></script>
-    <script src="js/src/VodCategory.js"></script>
+    <script src="js/src/VodCategories.js?1"></script>
+    <script src="js/src/VodCategory.js?1"></script>
     <script src="js/src/VodDetails.js"></script>
-    <script src="js/src/Grid.js"></script>
+    <script src="js/src/Grid.js?1"></script>
 
     <style>
         *,body{
             margin:0;
             padding:0;
         }
+        .font{
+            position:absolute;
+            visibility: hidden;
+        }
+        @font-face {
+            font-family: RobotoRegular;
+            src: url(./fonts/roboto-regular.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: RobotoLight;
+            src: url(./fonts/roboto-light.ttf) format('truetype');
+        }
+        .roboto-regular{ font-family: RobotoRegular; }
+        .roboto-light{ font-family: RobotoLight; }
+
     </style>
 </head>
 <body>
+<div class="preload-fonts">
+    <div class="font roboto-light">.</div>
+    <div class="font roboto-regular">.</div>
+</div>
 <script>
     window.onload = function() {
 

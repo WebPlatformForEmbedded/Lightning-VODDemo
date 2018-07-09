@@ -54,9 +54,6 @@ class VodCategories extends wuf.Component {
                 },
                 selectItem: function({item}) {
                     this.signal("showMovie", {item})
-                },
-                back: function(){
-                    return ""
                 }
             },
             showCategory({categoryId}) {

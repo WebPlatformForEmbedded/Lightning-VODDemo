@@ -31,47 +31,45 @@ class Grid extends wuf.Component {
 
     static _states() {
         return {
-            _focus: function(){
+            _init: function () {
                 this._selectedIndex = 0
             },
-            _handleLeft: function(){
-                if(this._selectedIndex > 0){
-                    this._select(this._selectedIndex-1)
+            _handleLeft: function () {
+                if (this._selectedIndex > 0) {
+                    this._select(this._selectedIndex - 1)
                 }
             },
-            _handleRight: function(){
-                if(this._selectedIndex < this._items.length - 1){
+            _handleRight: function () {
+                if (this._selectedIndex < this._items.length - 1) {
                     this._select(this._selectedIndex + 1)
                 }
             },
-            _handleUp: function(){
+            _handleUp: function () {
                 let index = this._selectedIndex - 5
 
-                if(index >= 0 ){
-                    this._select(index)
-                }else{
-                    this.signal('back',{},true)
+                if (index >= 0) {
+                    this._select(index);
+                } else {
+                    this.signal('back', {}, true)
                 }
             },
-            _handleDown: function(){
+            _handleDown: function () {
                 let index = this._selectedIndex + 5
 
-                if(index > this._items.length - 1){
-                    this._select(this._items.length - 1)
-                }else{
+                if (index <= this._items.length - 1) {
                     this._select(index)
                 }
             },
-            _handleEnter: function(){
-                this.signal('selectItem',{target:this._items.getAt(this._selectedIndex).data})
+            _handleEnter: function () {
+                this.signal('selectItem', {target: this._items.getAt(this._selectedIndex).data})
             },
-            select: function({index}){
+            select: function ({index}) {
                 this._selectedIndex = index % this._items.length
 
                 this.patch({
-                    List:{
-                        smooth:{
-                            y: -(Math.floor(this._selectedIndex/5) * 440)
+                    List: {
+                        smooth: {
+                            y: -(Math.floor(this._selectedIndex / 5) * 440)
                         }
                     }
                 })
@@ -86,26 +84,37 @@ class Grid extends wuf.Component {
 }
 
 class GridItem extends wuf.Component{
-    static _template(){
+    static _template() {
         return {
-            scale:0.9,
-            Image:{
-
+            scale: 0.9,
+            Image: {},
+            Background: {
+                y: 350, w: 260, h: 80, rect: true, color: 0x00000000,
             },
-            Label:{
-                y:360,
-                text:{fontSize:25, wordWrapWidth:200, maxLines:2, lineHeight:35}
+            Label: {
+                y: 360,
+                x: 15,
+                alpha: 0.4,
+                text: {fontSize: 20, wordWrapWidth: 200, maxLines: 2, lineHeight: 30, fontFace: 'RobotoLight'}
             }
         }
     }
 
     static _states(){
         return {
-            _focus: function(){
-                this.setSmooth('scale',1)
+            _focus: function () {
+                this.patch({
+                    smooth: {scale: 1},
+                    Label: {smooth: {alpha: 1}},
+                    Background: {smooth: {color: 0x80000000}}
+                })
             },
-            _unfocus: function(){
-                this.setSmooth('scale',0.9)
+            _unfocus: function () {
+                this.patch({
+                    smooth: {scale: 0.9},
+                    Label: {smooth: {alpha: 0.4}},
+                    Background: {smooth: {color: 0x00000000}}
+                })
             }
         }
     }

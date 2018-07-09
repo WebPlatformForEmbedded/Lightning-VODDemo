@@ -3,9 +3,9 @@ class VodDetails extends wuf.Component {
     static _template() {
         return {
             Wrapper:{
-                Background:{
-
-                }
+                Background: {w: 1920, h: 1080, amount:0, transitions:{amount:{duration:2,delay:1}}, type: wuf.views.FastBlurView, content: {
+                    Image: {w: 1920, h: 1080}
+                }}
             }
         }
     }
@@ -13,7 +13,9 @@ class VodDetails extends wuf.Component {
     static _states() {
         return {
             _init: function(){
-                this.tag('Background').on('txLoaded',()=>{
+                this._drop = this.tag('Background')
+
+                this._drop.tag('Image').on('txLoaded',()=>{
                     this.fire('loaded')
                 })
             },
@@ -32,6 +34,18 @@ class VodDetails extends wuf.Component {
             },
             Loaded:{
                 _enter: function(){
+                    this.patch({
+                        Wrapper:{
+                            Background:{smooth:{amount:3}}
+                        }
+                    })
+                },
+                _exit: function(){
+                    this.patch({
+                        Wrapper:{
+                            Background:{amount:0}
+                        }
+                    })
                 }
             }
         }
@@ -39,15 +53,7 @@ class VodDetails extends wuf.Component {
 
     set item(v){
         this._item = v
-
-        this.patch({
-            Wrapper:{
-                Background:{
-                    src:VodMain.getCropped({url:v.backdrop_path,w:1920, h:1080, path:'w1280'})
-                }
-            }
-        })
-        
+        this._drop.tag('Image').src = VodMain.getCropped({url:v.backdrop_path,w:1920, h:1080, path:'w1280'})
     }
 
 }
