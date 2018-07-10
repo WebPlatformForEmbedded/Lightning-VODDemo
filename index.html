@@ -45,6 +45,15 @@
     <div class="font roboto-regular">.</div>
 </div>
 <script>
+    // Work-around for requestAnimationFrame bug.
+    var targetTime = 0;
+    window.requestAnimationFrame = function(callback) {
+        var currentTime = +new Date;
+        targetTime = Math.max(targetTime + 11, currentTime);
+        var timeoutCb = function() { callback(+new Date); }
+        return window.setTimeout(timeoutCb, targetTime - currentTime);
+    };
+
     window.onload = function() {
 
         // The specified key code will fire the _handle{Name} event in the focused component.
@@ -58,7 +67,8 @@
         }
 
         setTimeout(() => {
-            const options = {stage: {w: 1920, h: 1080, glClearColor: 0xFF000000}, debug: true, keys: navigationKeys}
+            //const options = {stage: {w: 1920, h: 1080, glClearColor: 0xFF000000}, debug: true, keys: navigationKeys}
+            const options = {stage: {precision: 0.6666666667, textRenderIssueMargin: 2, w: 1280, h: 720, glClearColor: 0xFF000000 }, debug: true, keys: navigationKeys }
             const app = new VodMain(options)
 
             document.body.appendChild(app.stage.getCanvas());
